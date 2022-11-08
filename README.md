@@ -24,6 +24,13 @@ This app uses API requests provided by weatherapi.com
 * Screenshots of sample requests and responses can be found here: 
   
 ## Services, Controllers, and other classes
+* Source code for this API can be found in src/main/java/com/SimpleProject
+  * Controllers - LocationController, ForecastController
+    * These options take in http requests and call the appropriate method from Service classes. Then, using the output from that method, returns the response to the user
+  * Services - ForecastService
+    * Calls ApiCaller object, then makes calculations based on the results received
+ * ApiCaller - sends api calls to weatherapi.com, and returns the result
+ * Location- object for storing data about the locations
 
 
 ## To-do:
