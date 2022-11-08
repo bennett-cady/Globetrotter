@@ -30,6 +30,7 @@ This app uses API requests provided by weatherapi.com
   * Services - ForecastService
     * Calls ApiCaller object, then makes calculations based on the results received
  * ApiCaller - sends api calls to weatherapi.com, and returns the result
+ * Note: Location controller skips calling a service and calls ApiCaller
  * Location- object for storing data about the locations
 
 
