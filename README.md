@@ -22,7 +22,7 @@ This app uses API requests provided by weatherapi.com
   * The response body is a list of all destinations that satisfy the user's ideal temperature.
   
 * Screenshots of sample requests and responses can be found [here](https://github.com/bennett-cady/Globetrotter/issues/1)\
-  *Application is ran on my local machine (Docker image coming soon!)
+  * Application is ran on my local machine (Docker image coming soon!)
   
 ## Services, Controllers, and other classes
 * Source code for this API can be found in src/main/java/com/SimpleProject
