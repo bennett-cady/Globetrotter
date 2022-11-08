@@ -21,17 +21,17 @@ This app uses API requests provided by weatherapi.com
   * The application goes through cities, pulling their weekly forecast, and calculating whether or not it's weekly average temperature falls between this range.
   * The response body is a list of all destinations that satisfy the user's ideal temperature.
   
-* Screenshots of sample requests and responses can be found [here](https://github.com/bennett-cady/Globetrotter/issues/1)\
+* Screenshots of sample requests and responses can be found [here](https://github.com/bennett-cady/Globetrotter/issues/1)
   * Application is ran on my local machine (Docker image coming soon!)
   
 ## Services, Controllers, and other classes
 * Source code for this API can be found in src/main/java/com/SimpleProject
   * Controllers - LocationController, ForecastController
-    * These options take in http requests and call the appropriate method from Service classes. Then, using the output from that method, returns the response to the user
+    * These objects take in http requests and call the appropriate method from Service classes. Then, using the output from that method, returns the response to the user
   * Services - ForecastService
     * Calls ApiCaller object, then makes calculations based on the results received
  * ApiCaller - sends api calls to weatherapi.com, and returns the result
- * Note: Location controller skips calling a service and calls ApiCaller
+    * Note: Location controller skips calling a service and calls ApiCaller
  * Location- object for storing data about the locations
 
 
