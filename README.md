@@ -11,9 +11,9 @@ This app uses API requests provided by weatherapi.com
   * This route simply pulls up the current temperature of the given city
   * The temperature is given in the body of the request
 * /forecast/city=[enter city name here]&idealTemp=[enter ideal temperature here]
-  * This route sends an API request to get the 7-day forecast of the entered city
+  * This route sends an API request to get the 7-day forecast of the city entered
   * One field returned by the api is the average temperature of each day
-  * This application calculates the avaerage of average temperatures. If this calculation is within 5 degress (f) of the ideal temperature entered, the body of the response informs the user the weather of this location will be ideal.
+  * This application calculates the avaerage of average daily temperatures. If this calculation is within 5 degress (f) of the ideal temperature entered, the body of the response informs the user the weather of this location will be ideal.
     * Otherwise, the response body will inform the user whether it will be too hot or too cold for them
 * /findCityWith/idealTemp=[enter ideal temperature here]&margin=[enter temperature margin here]
   * This route takes the ideal temperature, then adds and subtracts the margin to compute the temperature range the user prefers
