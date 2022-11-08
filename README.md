@@ -8,7 +8,7 @@ This app uses API requests provided by weatherapi.com
 
 ## Routes
 * /current/city=[enter city name here]
-  * This simple route simply pulls up the current temperature of the given city
+  * This route simply pulls up the current temperature of the given city
   * The temperature is given in the body of the request
 * /forecast/city=[enter city name here]&idealTemp=[enter ideal temperature here]
   * This route sends an API request to get the 7-day forecast of the entered city
