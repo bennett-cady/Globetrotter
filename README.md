@@ -21,7 +21,7 @@ This app uses API requests provided by weatherapi.com
   * The application goes through cities, pulling their weekly forecast, and calculating whether or not it's weekly average temperature falls between this range.
   * The response body is a list of all destinations that satisfy the user's ideal temperature.
   
-* Screenshots of sample requests and responses can be found here: 
+* Screenshots of sample requests and responses can be found [here](https://github.com/bennett-cady/Globetrotter/issues/1)
   
 ## Services, Controllers, and other classes
 * Source code for this API can be found in src/main/java/com/SimpleProject
