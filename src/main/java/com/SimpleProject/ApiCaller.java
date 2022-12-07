@@ -85,4 +85,24 @@ public class ApiCaller {
 		return arr;
 	}
 	
+	
+	public JsonNode[] customOutLook(String location, int daysNo) throws JsonMappingException, JsonProcessingException {
+		
+		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("API_KEY")+"&q="+location+ "&days="+daysNo;
+		RestTemplate restTemp = new RestTemplate();
+		ResponseEntity<String> response = restTemp.getForEntity(uri, String.class);
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode root = mapper.readTree(response.getBody());
+				
+		JsonNode[] arr = new JsonNode[daysNo];
+		JsonNode days = root.path("forecast").path("forecastday");
+				
+		for(int i=0; i<daysNo; i++) {
+			arr[i]=days.get(i);
+		}
+		return arr;
+	}
+	
+	
+	
 }

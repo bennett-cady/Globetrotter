@@ -12,13 +12,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
 @RequestMapping("/snowfall")
-public class SnowfallController {
+public class SnowfallController 
+{
+	
+	SnowfallService sfs = new SnowfallService();
 
 	@GetMapping("/city={n}")
 	@ResponseBody
 	public ResponseEntity<String> weeklySnowTotal(@PathVariable("n") String city) throws JsonMappingException, JsonProcessingException 
 	{
-		SnowfallService sfs = new SnowfallService();
+		
 		double weeklyTotal = sfs.weeklySnowTotal(city);
 		return ResponseEntity.ok().body("It will snow "+String.valueOf(weeklyTotal)+" cm in "+city+" this week.");
 		
@@ -28,10 +31,17 @@ public class SnowfallController {
 	@ResponseBody
 	public ResponseEntity<String> weeklySnowTotalIn(@PathVariable("n") String city) throws JsonMappingException, JsonProcessingException 
 	{
-		SnowfallService sfs = new SnowfallService();
 		double weeklyTotalInches = sfs.weeklySnowTotal(city) * 0.39;
 		return ResponseEntity.ok().body("It will snow "+String.valueOf(weeklyTotalInches)+" inches in "+city+" this week.");
 		
+	}
+	
+	@GetMapping("/largestTotals&days={days}")
+	@ResponseBody
+	public ResponseEntity<Location> bestSkiResort(@PathVariable("days") int days) throws JsonMappingException, JsonProcessingException
+	{
+		Location maxL = sfs.findHighestTotal(days);
+		return ResponseEntity.ok().body(maxL);
 	}
 	
 }
