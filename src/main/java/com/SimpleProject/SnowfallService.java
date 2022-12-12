@@ -18,14 +18,16 @@ public class SnowfallService {
 		return snowTotal;
 	}
 	
-	Location dry = new Location("No snow expected in the next ","","","");
+	Location dry = new Location("","","","");
 	Location wnpk = new Location("Copper Mountain", "80443", "USA", "North America");
 	Location cpmt = new Location("Winter Park", "80482", "USA", "North America"); 	
 	Location eldo = new Location("Eldora Ski Resort","80466", "USA", "North America");
 	Location taos = new Location("Taos Ski Valley", "87525", "USA", "North America");
+	
 	Location[] resorts = {dry,wnpk,cpmt,eldo,taos};
 
-	public Location findHighestTotal(int days) throws JsonMappingException, JsonProcessingException
+	public Location findHighestTotal(int days) 
+			throws JsonMappingException, JsonProcessingException
 	{
 		if(days<1 || days>7) {days=7;}
 		
@@ -35,9 +37,10 @@ public class SnowfallService {
 		for(int idx=1; idx<resorts.length; idx++) {
 			String zip=resorts[idx].getRegion();
 			JsonNode[] jn = ac.customOutLook(zip, days);
-			double total= 0;
+			double total= 0.0;
 			for(JsonNode day: jn) {
-				total+=day.path("day").path("totalSnow_cm").asDouble();
+				double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
+				total+=dailyTotal;
 			}
 			if(total>highest) {
 				highest=total;
@@ -45,7 +48,7 @@ public class SnowfallService {
 			}
 		}
 		if(highest==0.0) {
-			dry.city=dry.getCity()+String.valueOf(days)+" days";
+			dry.city="No snow in the next "+String.valueOf(days)+" days";
 			return dry;
 		}
 		return maxSnow;

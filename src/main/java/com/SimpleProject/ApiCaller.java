@@ -100,6 +100,10 @@ public class ApiCaller {
 		for(int i=0; i<daysNo; i++) {
 			arr[i]=days.get(i);
 		}
+		for(JsonNode day: arr) {
+			double total=day.path("day").path("totalsnow_cm").asDouble();
+			System.out.println(total);
+		}
 		return arr;
 	}
 	
