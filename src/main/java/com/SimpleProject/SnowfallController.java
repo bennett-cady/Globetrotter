@@ -1,5 +1,7 @@
 package com.SimpleProject;
 
+import java.util.HashMap;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,5 +45,14 @@ public class SnowfallController
 		Location maxL = sfs.findHighestTotal(days);
 		return ResponseEntity.ok().body(maxL);
 	}
+	
+	@GetMapping("/rankResorts&days={days}")
+	@ResponseBody
+	public ResponseEntity<HashMap<String, Double>> rankByTotal(@PathVariable("days") int days) throws JsonMappingException, JsonProcessingException{
+		HashMap<String, Double> res = sfs.rankResortSnowfall(days);
+		return ResponseEntity.ok().body(res);
+	}
+	
+	
 	
 }

@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 public class Location {
 
+	@Override
+	public String toString() {
+		return "Location [city=" + city + ", region=" + region + ", country=" + country + ", continent=" + continent
+				+ "]";
+	}
+
 	String city;
 	String region;
 	String country;

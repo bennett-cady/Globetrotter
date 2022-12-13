@@ -1,6 +1,8 @@
 package com.SimpleProject;
 
 
+import java.util.HashMap;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,11 +28,16 @@ public class SnowfallService {
 	
 	Location[] resorts = {dry,wnpk,cpmt,eldo,taos};
 
+
 	public Location findHighestTotal(int days) 
 			throws JsonMappingException, JsonProcessingException
 	{
-		if(days<1 || days>7) {days=7;}
-		
+		if(days>7) {
+			days=7;
+		}
+		else if(days<1) {
+			days=1;
+		}
 		double highest = 0.0;
 		Location maxSnow = resorts[0];
 		
@@ -53,5 +60,32 @@ public class SnowfallService {
 		}
 		return maxSnow;
 	}
+	
+	public HashMap<String, Double> rankResortSnowfall(int days) 
+			throws JsonMappingException, JsonProcessingException
+	{
+		if(days>7) {
+			days=7;
+		}
+		else if(days<1) {
+			days=1;
+		}
+		
+		HashMap<String, Double> totalMap = new HashMap<String, Double>();
+		
+		for(int idx=1; idx<resorts.length; idx++) {
+			
+			String zip=resorts[idx].getRegion();
+			JsonNode[] jn = ac.customOutLook(zip, days);
+			double total= 0.0;
+			for(JsonNode day: jn) {
+				double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
+				total+=dailyTotal;
+			}
+			total = Math.round(total*100.0)/100;
+			totalMap.put(resorts[idx].city, total);
+		}
+		return totalMap; // still need to rank these: sort by totals in descending order
+	}	
 	
 }
