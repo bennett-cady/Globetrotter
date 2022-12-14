@@ -48,8 +48,10 @@ public class SnowfallController
 	
 	@GetMapping("/rankResorts&days={days}")
 	@ResponseBody
-	public ResponseEntity<HashMap<String, Double>> rankByTotal(@PathVariable("days") int days) throws JsonMappingException, JsonProcessingException{
-		HashMap<String, Double> res = sfs.rankResortSnowfall(days);
+	public ResponseEntity<String[][]> rankByTotal(@PathVariable("days") int days) 
+			throws JsonMappingException, JsonProcessingException
+	{
+		String[][] res = sfs.rankResortSnowfall(days);
 		return ResponseEntity.ok().body(res);
 	}
 	

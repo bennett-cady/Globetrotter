@@ -102,7 +102,6 @@ public class ApiCaller {
 		}
 		for(JsonNode day: arr) {
 			double total=day.path("day").path("totalsnow_cm").asDouble();
-			System.out.println(total);
 		}
 		return arr;
 	}

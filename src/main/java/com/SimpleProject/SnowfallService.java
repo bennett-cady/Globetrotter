@@ -20,7 +20,7 @@ public class SnowfallService {
 		return snowTotal;
 	}
 	
-	Location dry = new Location("","","","");
+	Location dry = new Location();
 	Location wnpk = new Location("Copper Mountain", "80443", "USA", "North America");
 	Location cpmt = new Location("Winter Park", "80482", "USA", "North America"); 	
 	Location eldo = new Location("Eldora Ski Resort","80466", "USA", "North America");
@@ -42,6 +42,9 @@ public class SnowfallService {
 		Location maxSnow = resorts[0];
 		
 		for(int idx=1; idx<resorts.length; idx++) {
+			if(idx==4) {
+				System.out.println(resorts[4]);
+			}
 			String zip=resorts[idx].getRegion();
 			JsonNode[] jn = ac.customOutLook(zip, days);
 			double total= 0.0;
@@ -61,31 +64,37 @@ public class SnowfallService {
 		return maxSnow;
 	}
 	
-	public HashMap<String, Double> rankResortSnowfall(int days) 
+	
+	public String[][] rankResortSnowfall(int days) 
 			throws JsonMappingException, JsonProcessingException
 	{
-		if(days>7) {
-			days=7;
-		}
-		else if(days<1) {
-			days=1;
-		}
-		
-		HashMap<String, Double> totalMap = new HashMap<String, Double>();
-		
-		for(int idx=1; idx<resorts.length; idx++) {
-			
-			String zip=resorts[idx].getRegion();
-			JsonNode[] jn = ac.customOutLook(zip, days);
+		if(days>7) {days=7;} else if(days<1) {days=1;}
+		String[][] totalsMap = new String[resorts.length-1][2];
+		for(int idx=1; idx<resorts.length; idx++) 
+		{
+			Location current = resorts[idx];
+			String zipCode= current.getRegion();
+			JsonNode[] jn = ac.customOutLook(zipCode, days);
 			double total= 0.0;
-			for(JsonNode day: jn) {
+			int arrIdx = idx-1;
+			for(JsonNode day: jn) 
+			{
 				double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
 				total+=dailyTotal;
 			}
-			total = Math.round(total*100.0)/100;
-			totalMap.put(resorts[idx].city, total);
+			totalsMap[idx-1][0] = current.getCity();
+			totalsMap[idx-1][1] = String.valueOf(total);
+			while(arrIdx>0) 
+			{
+				if(  Double.valueOf(totalsMap[arrIdx][1]) > Double.valueOf( totalsMap[arrIdx-1][1] )) {
+					String[] temp = totalsMap[arrIdx];
+					totalsMap[arrIdx] = totalsMap[arrIdx-1];
+					totalsMap[arrIdx-1] = temp;
+				} else {break;}
+				arrIdx--;
+			}
 		}
-		return totalMap; // still need to rank these: sort by totals in descending order
+		return totalsMap; 
 	}	
 	
 }
