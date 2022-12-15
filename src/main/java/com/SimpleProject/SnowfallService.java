@@ -1,8 +1,5 @@
 package com.SimpleProject;
 
-
-import java.util.HashMap;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,7 +37,6 @@ public class SnowfallService {
 		}
 		double highest = 0.0;
 		Location maxSnow = resorts[0];
-		
 		for(int idx=1; idx<resorts.length; idx++) {
 			if(idx==4) {
 				System.out.println(resorts[4]);
@@ -66,23 +62,23 @@ public class SnowfallService {
 	
 	
 	public String[][] rankResortSnowfall(int days) 
-			throws JsonMappingException, JsonProcessingException
+			throws JsonMappingException, JsonProcessingException 
 	{
 		if(days>7) {days=7;} else if(days<1) {days=1;}
 		String[][] totalsMap = new String[resorts.length-1][2];
 		for(int idx=1; idx<resorts.length; idx++) 
 		{
-			Location current = resorts[idx];
-			String zipCode= current.getRegion();
+			Location current = resorts[idx]; 
+			String zipCode= current.getRegion(); 
 			JsonNode[] jn = ac.customOutLook(zipCode, days);
-			double total= 0.0;
+			double total= 0.0; 
 			int arrIdx = idx-1;
 			for(JsonNode day: jn) 
 			{
 				double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
 				total+=dailyTotal;
 			}
-			totalsMap[idx-1][0] = current.getCity();
+			totalsMap[idx-1][0] = current.getCity(); 
 			totalsMap[idx-1][1] = String.valueOf(total);
 			while(arrIdx>0) 
 			{
