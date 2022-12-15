@@ -21,6 +21,16 @@ This app uses API requests provided by weatherapi.com
   * The application goes through cities, pulling their weekly forecast, and calculating whether or not it's weekly average temperature falls between this range.
   * The response body is a list of all destinations that satisfy the user's ideal temperature.
   
+* /snowfall/
+  * /city=[ enter city name here ]&inches
+    * Tells the user how much it will snow (cm) in the next 7 days
+  * /city[ enter city name here ]
+    * Tells the user how much it will snow (in) in the next 7 days
+  * /largestTotal&days=[ enter number of days ]
+    * Goes through a list of Ski resorts, calculates the total snowfall forecasted, and returns the ski resort that will see the most snowfall in the number of days entered by the user
+   * /rankResorts&days=[ enter number of days ]
+     * Calculates the expected snowfall at each resort, then returns the resort name and it's calculated total. The output is sorted in descending order by total snowfall.
+  
 * Screenshots of sample requests and responses can be found [here](https://github.com/bennett-cady/Globetrotter/issues/1)
   * Application is ran on my local machine (Docker image coming soon!)
   
@@ -42,7 +52,6 @@ This app uses API requests provided by weatherapi.com
   * default is 5
 * Create endpoints that deal with more than just temperature, such as:
   * User does not care about temperature, just wants to be somewhere sunny
-  * User is going skiing and wants to find the place with the most snowfall in the coming week
 * Integrate with Relational Database:
   * currently using adhoc approach of manually creating list of locations
   * A relational database would store much more locations
