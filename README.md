@@ -1,6 +1,6 @@
 # Globetrotter
 ## Overview
-The weekly forecast looks grim and you devide to get out of town ASAP! But where should you go?
+The weekly forecast looks grim and you decide to get out of town ASAP! But where should you go?
 This web app allows impulsive travelers to enter their ideal weather conditions and returns destinations that might be a good match.
 
 This application sends API requests to get the 7-day forecast of various locations to help users plan their last minute vacations.
