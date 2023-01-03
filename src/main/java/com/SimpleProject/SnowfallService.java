@@ -90,6 +90,11 @@ public class SnowfallService {
 				arrIdx--;
 			}
 		}
+		for(String[] location: totalsMap) {
+			double total=Double.valueOf(location[1]);
+			total=Math.ceil(total*100)/100;
+			location[1]=String.valueOf(total);
+		}
 		return totalsMap; 
 	}	
 	

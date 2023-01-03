@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,17 +15,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-@Configuration
+@Component
+@PropertySource("classpath:application.properties")
 public class ApiCaller {
 	/*
-	@Value("${API_KEY}")
+	@Value("${environment.apikey}")
 	private String apiKey;
 	*/
-	/*
-	@Autowired
-	private Environment env;
-	String apiKey = env.getProperty("API_KEY");
-	*/
+	@Value("${test.name}")
+	public String envName;
 
 	public JsonNode showTempForCity(String city) throws JsonMappingException, JsonProcessingException 
 	{
@@ -87,8 +86,9 @@ public class ApiCaller {
 	
 	
 	public JsonNode[] customOutLook(String location, int daysNo) throws JsonMappingException, JsonProcessingException {
-		
+
 		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("API_KEY")+"&q="+location+ "&days="+daysNo;
+		
 		RestTemplate restTemp = new RestTemplate();
 		ResponseEntity<String> response = restTemp.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();

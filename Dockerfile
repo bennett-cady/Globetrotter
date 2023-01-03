@@ -1,15 +1,15 @@
 FROM maven:3.5.4-jdk-8-alpine AS builder
 
-
-
-COPY pom.xml pom.xml
 COPY src/ src/
+COPY pom.xml pom.xml
 
 RUN mvn clean package -Dmaven.test.skip=true
 
 FROM openjdk:11 AS runner
 
-ENV API_KEY=${API_KEY}
+ARG API_KEY
+
+ENV ENV_KEY=${API_KEY}
 
 EXPOSE 8080
 
