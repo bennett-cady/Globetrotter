@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  globetrotter:
+    image: benjcady14/globetrotter:0.0.3
+    ports:
+      - 8080:8080
+    environment:
+      API_KEY: ${API_KEY}
+    container_name: globetrotter
