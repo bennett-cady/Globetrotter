@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: globetrotter
+  namespace: gt-weather
+  labels:
+    app: globetrot-weather
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: globetrot-weather
+  template:
+    metadata:
+      labels:
+        app: globetrot-weather
+    spec:
+      containers:
+      - name: globetrotter
+        image: benjcady14/globetrotter:0.0.3
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+        env:
+        - name: API_KEY
+          valueFrom: # create secret called api-key-credentials
+            secretKeyRef:
+              name: api-key-credentials
+              key: api-key
