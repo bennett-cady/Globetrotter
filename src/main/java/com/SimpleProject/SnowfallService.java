@@ -4,11 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class SnowfallService {
-	
+public class SnowfallService 
+{	
 	ApiCaller ac = new ApiCaller();
 
-	public double weeklySnowTotal(String city) throws JsonMappingException, JsonProcessingException {
+	public double weeklySnowTotal(String city) throws JsonMappingException, JsonProcessingException 
+	{
 		JsonNode[] jn = ac.weekOutLook(city);
 		double snowTotal = 0.0;
 		for(JsonNode day: jn) {
@@ -25,7 +26,6 @@ public class SnowfallService {
 	
 	Location[] resorts = {dry,wnpk,cpmt,eldo,taos};
 
-
 	public Location findHighestTotal(int days) 
 			throws JsonMappingException, JsonProcessingException
 	{
@@ -37,10 +37,8 @@ public class SnowfallService {
 		}
 		double highest = 0.0;
 		Location maxSnow = resorts[0];
-		for(int idx=1; idx<resorts.length; idx++) {
-			if(idx==4) {
-				System.out.println(resorts[4]);
-			}
+		for(int idx=1; idx<resorts.length; idx++)
+		{
 			String zip=resorts[idx].getRegion();
 			JsonNode[] jn = ac.customOutLook(zip, days);
 			double total= 0.0;
@@ -59,7 +57,6 @@ public class SnowfallService {
 		}
 		return maxSnow;
 	}
-	
 	
 	public String[][] rankResortSnowfall(int days) 
 			throws JsonMappingException, JsonProcessingException 
