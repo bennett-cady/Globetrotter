@@ -4,7 +4,7 @@ echo "Enter tag (#.#.#)"
 
 read tag
 
-IMAGE_NAME=benjcady/globetrotter:$tag
+IMAGE_NAME=benjcady14/globetrotter:$tag
 
 docker build -t $IMAGE_NAME ../.
 
