@@ -32,7 +32,9 @@ This app uses API requests provided by weatherapi.com
      * Calculates the expected snowfall at each resort, then returns the resort name and it's calculated total. The output is sorted in descending order by total snowfall.
   
 * Screenshots of sample requests and responses can be found [here](https://github.com/bennett-cady/Globetrotter/issues/1)
-  * Application is ran on my local machine (Docker image coming soon!)
+* Dockerhub image: benjcady14/globetrotter:0.0.3
+  * The image needs the API key to run, I am currently working on deploying the application via minikube
+ 
   
 ## Services, Controllers, and other classes
 * Source code for this API can be found in src/main/java/com/SimpleProject
