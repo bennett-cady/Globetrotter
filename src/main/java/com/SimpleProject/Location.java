@@ -12,11 +12,21 @@ public class Location {
 
 	String city;
 	String region;
+	String zipCode;
 	String country;
 	String continent;
 	
 	Location(){}
 
+	public Location(String city, String region, String zipCode, String country, String continent) {
+		super();
+		this.city = city;
+		this.region = region;
+		this.zipCode = zipCode;
+		this.country = country;
+		this.continent = continent;
+	}
+	
 	public Location(String city, String region, String country, String continent) {
 		super();
 		this.city = city;
@@ -33,6 +43,14 @@ public class Location {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+	
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	public String getRegion() {
