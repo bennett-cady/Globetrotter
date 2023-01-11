@@ -62,4 +62,5 @@ This app uses API requests provided by weatherapi.com
     * Relational database returns list of locations that satisfy the following query:
       * SELECT * FROM [database_name] WHERE region='Caribbean' OR region='Mediterranean'
     * My API returns Caribbean and Mediterranean locations with forecast that fits the user's ideal weather conditons
+ * Make zip code its own field in the Location object instead of putting it under 'region'
 
