@@ -66,7 +66,7 @@ public class SnowfallService
 		for(int idx=1; idx<resorts.length; idx++) 
 		{
 			Location current = resorts[idx]; 
-			String zipCode= current.getRegion(); 
+			String zipCode= current.getZipCode(); 
 			JsonNode[] jn = ac.customOutLook(zipCode, days);
 			double total= 0.0; 
 			int arrIdx = idx-1;
