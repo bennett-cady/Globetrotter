@@ -18,51 +18,46 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Component
 @PropertySource("classpath:application.properties")
 public class ApiCaller {
-	/*
-	@Value("${environment.apikey}")
-	private String apiKey;
-	*/
-	@Value("${test.name}")
-	public String envName;
-
+	
 	public JsonNode showTempForCity(String city) throws JsonMappingException, JsonProcessingException 
 	{
 		String uri = "http://api.weatherapi.com/v1/current.json?key="+System.getenv("API_KEY")+"&q="+city;
-		RestTemplate restTemp = new RestTemplate();
-		ResponseEntity<String> response = restTemp.getForEntity(uri, String.class);
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(response.getBody());
-		JsonNode name = root.path("current").path("temp_f");
-		return name;
+		JsonNode nodes = root.path("current").path("temp_f");
+		return nodes;
 	}
 	
 	public double[] getCity7Day(String city) throws JsonMappingException, JsonProcessingException 
 	{
 		String uri = "http://api.weatherapi.com/v1/forecast.json?key="
 	    +System.getenv("API_KEY")+"&q="+city+ "&days=7";
+		
 		RestTemplate restTemp = new RestTemplate();
 		ResponseEntity<String> response = restTemp.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(response.getBody());
 		
-		JsonNode[] arr = new JsonNode[7];
+		JsonNode[] weekForecast = new JsonNode[7];
 		JsonNode days = root.path("forecast").path("forecastday");
 		
 		for(int i=0; i<7; i++) 
 		{
-			arr[i]=days.get(i);
+			weekForecast[i]=days.get(i);
 		}
 		
-		double[] highs = new double[7];
+		double[] weekHighs = new double[7];
 		int idx=0;
-		for(JsonNode jn: arr) 
+		for(JsonNode node: weekForecast) 
 		{
-			double tf= jn.path("day").path("maxtemp_f").asDouble();
-			highs[idx]=tf;
+			double temp_f = node.path("day").path("maxtemp_f").asDouble();
+			weekHighs[idx]=temp_f;
 			idx++;
 			
 		}
-		return highs;
+		return weekHighs;
 	}
 	
 	public JsonNode[] weekOutLook(String location) throws JsonMappingException, JsonProcessingException {
@@ -70,18 +65,18 @@ public class ApiCaller {
 		//returns a list of the 7 day forecast for the location
 		
 		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("API_KEY")+"&q="+location+ "&days=7";
-		RestTemplate restTemp = new RestTemplate();
-		ResponseEntity<String> response = restTemp.getForEntity(uri, String.class);
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(response.getBody());
 				
-		JsonNode[] arr = new JsonNode[7];
+		JsonNode[] weekForecast = new JsonNode[7];
 		JsonNode days = root.path("forecast").path("forecastday");
 				
 		for(int i=0; i<7; i++) {
-			arr[i]=days.get(i);
+			weekForecast[i]=days.get(i);
 		}
-		return arr;
+		return weekForecast;
 	}
 	
 	
@@ -89,21 +84,21 @@ public class ApiCaller {
 
 		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("API_KEY")+"&q="+location+ "&days="+daysNo;
 		
-		RestTemplate restTemp = new RestTemplate();
-		ResponseEntity<String> response = restTemp.getForEntity(uri, String.class);
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(response.getBody());
 				
-		JsonNode[] arr = new JsonNode[daysNo];
+		JsonNode[] forecast = new JsonNode[daysNo];
 		JsonNode days = root.path("forecast").path("forecastday");
 				
 		for(int i=0; i<daysNo; i++) {
-			arr[i]=days.get(i);
+			forecast[i]=days.get(i);
 		}
-		for(JsonNode day: arr) {
+		for(JsonNode day: forecast) {
 			double total=day.path("day").path("totalsnow_cm").asDouble();
 		}
-		return arr;
+		return forecast;
 	}
 	
 	
