@@ -1,4 +1,4 @@
-package com.SimpleProject;
+package com.SimpleProject.Controllers;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.SimpleProject.Model.Location;
+import com.SimpleProject.Services.ForecastService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;

@@ -1,4 +1,4 @@
-package com.SimpleProject;
+package com.SimpleProject.Model;
 
 import java.util.ArrayList;
 
@@ -10,13 +10,13 @@ public class Location {
 				+ "]";
 	}
 
-	String city;
+	public String city;
 	String region;
 	String zipCode;
 	String country;
 	String continent;
 	
-	Location(){}
+	public Location(){}
 
 	public Location(String city, String region, String zipCode, String country, String continent) {
 		super();

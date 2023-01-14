@@ -1,10 +1,12 @@
-package com.SimpleProject;
+package com.SimpleProject.Services;
 
 import java.util.ArrayList;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import com.SimpleProject.ApiCaller;
+import com.SimpleProject.Model.Location;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
