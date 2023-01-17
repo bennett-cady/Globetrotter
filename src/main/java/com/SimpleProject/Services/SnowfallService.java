@@ -2,6 +2,7 @@ package com.SimpleProject.Services;
 
 import com.SimpleProject.ApiCaller;
 import com.SimpleProject.Model.Location;
+import com.SimpleProject.Model.SkiResort;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,13 +21,13 @@ public class SnowfallService
 		return snowTotal;
 	}
 	
-	Location noneExpected = new Location();
-	Location winterPark = new Location("Copper Mountain", "Rocky Mountains", "80443", "USA", "North America");
-	Location copperMountain = new Location("Winter Park", "Rocky Mountains", "80482", "USA", "North America"); 	
-	Location eldora = new Location("Eldora Ski Resort", "Rocky Mountains", "80466", "USA", "North America");
-	Location taosSkiValley = new Location("Taos Ski Valley", "Rocky Mountains", "87525", "USA", "North America");
+	SkiResort noneExpected = new SkiResort();
+	SkiResort winterPark = new SkiResort("Copper Mountain", "Rocky Mountains", "80443", "USA", "North America");
+	SkiResort copperMountain = new SkiResort("Winter Park", "Rocky Mountains", "80482", "USA", "North America"); 	
+	SkiResort eldora = new SkiResort("Eldora Ski Resort", "Rocky Mountains", "80466", "USA", "North America");
+	SkiResort taosSkiValley = new SkiResort("Taos Ski Valley", "Rocky Mountains", "87525", "USA", "North America");
 	
-	Location[] resorts = {noneExpected, winterPark, copperMountain, eldora, taosSkiValley};
+	SkiResort[] resorts = {noneExpected, winterPark, copperMountain, eldora, taosSkiValley};
 
 	public Location findHighestTotal(int days) 
 			throws JsonMappingException, JsonProcessingException
@@ -60,7 +61,7 @@ public class SnowfallService
 		return resort;
 	}
 	
-	public String[][] rankResortSnowfall(int days) 
+	public SkiResort[] rankResortSnowfall(int days) 
 			throws JsonMappingException, JsonProcessingException 
 	{
 		if(days>7) {
@@ -68,38 +69,33 @@ public class SnowfallService
 		} else if(days<1) {
 			days=1;
 		}
-		String[][] totalsMap = new String[resorts.length-1][2];
+		SkiResort[] resortsRanked = new SkiResort[resorts.length-1];
 		
-		for(int idx=1; idx<resorts.length; idx++) 
-		{
-			Location currentResort = resorts[idx]; 
-			String zipcode= currentResort.getZipCode(); 
-			JsonNode[] jn = apiCaller.customOutLook(zipcode, days);
-			double currentTotal= 0.0; 
+		for(int idx=1; idx<resorts.length; idx++) {
+			SkiResort current = resorts[idx];
+			JsonNode[] nodes = apiCaller.customOutLook(current.getZipCode(), days);
+			double currentTotal = 0.0;
 			int arrayIdx = idx-1;
-			for(JsonNode day: jn) 
-			{
+			for(JsonNode day: nodes) {
 				double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
 				currentTotal+=dailyTotal;
 			}
-			totalsMap[idx-1][0] = currentResort.getCity(); 
-			totalsMap[idx-1][1] = String.valueOf(currentTotal);
-			
+			current.setExpectedSnow(Math.ceil(currentTotal*100)/100);
+			resortsRanked[arrayIdx]=current;
 			while(arrayIdx>0) {
-				if(  Double.valueOf(totalsMap[arrayIdx][1]) > Double.valueOf( totalsMap[arrayIdx-1][1] )) {
-					String[] temp = totalsMap[arrayIdx];
-					totalsMap[arrayIdx] = totalsMap[arrayIdx-1];
-					totalsMap[arrayIdx-1] = temp;
-				} else {break;}
+				if( resortsRanked[arrayIdx].getExpectedSnow() > resortsRanked[arrayIdx-1].getExpectedSnow() ) {
+					SkiResort temp = resortsRanked[arrayIdx];
+					resortsRanked[arrayIdx] = resortsRanked[arrayIdx-1];
+					resortsRanked[arrayIdx-1] = temp;
+				} else {
+					break;
+				}
 				arrayIdx--;
 			}
+			
 		}
-		for(String[] location: totalsMap) {
-			double total=Double.valueOf(location[1]);
-			total=Math.ceil(total*100)/100;
-			location[1]=String.valueOf(total);
-		}
-		return totalsMap; 
+
+		return resortsRanked; 
 	}	
 	
 }

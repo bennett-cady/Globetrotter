@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SimpleProject.Model.Location;
+import com.SimpleProject.Model.SkiResort;
 import com.SimpleProject.Services.SnowfallService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -48,10 +49,10 @@ public class SnowfallController
 	
 	@GetMapping("/rankResorts&days={days}")
 	@ResponseBody
-	public ResponseEntity<String[][]> rankByTotal(@PathVariable("days") int days) 
+	public ResponseEntity<SkiResort[]> rankByTotal(@PathVariable("days") int days) 
 			throws JsonMappingException, JsonProcessingException
 	{
-		String[][] res = sfs.rankResortSnowfall(days);
+		SkiResort[] res = sfs.rankResortSnowfall(days);
 		return ResponseEntity.ok().body(res);
 	}
 	
