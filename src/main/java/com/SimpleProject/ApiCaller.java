@@ -21,7 +21,7 @@ public class ApiCaller {
 	
 	public JsonNode showTempForCity(String city) throws JsonMappingException, JsonProcessingException 
 	{
-		String uri = "http://api.weatherapi.com/v1/current.json?key="+System.getenv("API_KEY")+"&q="+city;
+		String uri = "http://api.weatherapi.com/v1/current.json?key="+System.getenv("WEATHER_API_KEY")+"&q="+city;
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
@@ -33,7 +33,7 @@ public class ApiCaller {
 	public double[] getCity7Day(String city) throws JsonMappingException, JsonProcessingException 
 	{
 		String uri = "http://api.weatherapi.com/v1/forecast.json?key="
-	    +System.getenv("API_KEY")+"&q="+city+ "&days=7";
+	    +System.getenv("WEATHER_API_KEY")+"&q="+city+ "&days=7";
 		
 		RestTemplate restTemp = new RestTemplate();
 		ResponseEntity<String> response = restTemp.getForEntity(uri, String.class);
@@ -64,7 +64,7 @@ public class ApiCaller {
 		
 		//returns a list of the 7 day forecast for the location
 		
-		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("API_KEY")+"&q="+location+ "&days=7";
+		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("WEATHER_API_KEY")+"&q="+location+ "&days=7";
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
@@ -82,7 +82,7 @@ public class ApiCaller {
 	
 	public JsonNode[] customOutLook(String location, int daysNo) throws JsonMappingException, JsonProcessingException {
 
-		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("API_KEY")+"&q="+location+ "&days="+daysNo;
+		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("WEATHER_API_KEY")+"&q="+location+ "&days="+daysNo;
 		
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);

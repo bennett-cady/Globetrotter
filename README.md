@@ -35,23 +35,11 @@ This app uses API requests provided by weatherapi.com
 * Dockerhub image: benjcady14/globetrotter:0.0.3
   * The image needs the API key to run, I am currently working on deploying the application via minikube
  
-  
-## Services, Controllers, and other classes
-* Source code for this API can be found in src/main/java/com/SimpleProject
-  * Controllers - LocationController, ForecastController
-    * These objects take in http requests and call the appropriate method from Service classes. Then, using the output from that method, returns the response to the user
-  * Services - ForecastService
-    * Calls ApiCaller object, then makes calculations based on the results received
- * ApiCaller - sends api calls to weatherapi.com, and returns the result
-    * Note: Location controller skips calling a service and calls ApiCaller
- * Location- object for storing data about the locations
 
 
 ## To-do:
 * Give users the option to enter temperatures in celsius
 * Sort output of /findCityWith/ by how close their average temperature is to the ideal temperature given
-* Add feature to /forecast/city=[enter city name here]&idealTemp=[enter ideal temperature here] that gives users the option to change the margin
-  * default is 5
 * Create endpoints that deal with more than just temperature, such as:
   * User does not care about temperature, just wants to be somewhere sunny
 * Integrate with Relational Database:
