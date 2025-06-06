@@ -1,27 +1,31 @@
 package com.SimpleProject;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 @Component
-@PropertySource("classpath:application.properties")
+@PropertySource(value = { "classpath:application.properties" })
 public class ApiCaller {
 	
+	private static String weatherAPIKey;
+	
+	@Value("${api.key}") 
+	public void setKey(String key) {
+		ApiCaller.weatherAPIKey = key;
+	}
+	
+	
 	public JsonNode showTempForCity(String city) throws JsonMappingException, JsonProcessingException 
-	{
-		String uri = "http://api.weatherapi.com/v1/current.json?key="+System.getenv("WEATHER_API_KEY")+"&q="+city;
+	{		
+		String uri = "http://api.weatherapi.com/v1/current.json?key="+weatherAPIKey+"&q="+city;
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
@@ -32,8 +36,9 @@ public class ApiCaller {
 	
 	public double[] getCity7Day(String city) throws JsonMappingException, JsonProcessingException 
 	{
+		
 		String uri = "http://api.weatherapi.com/v1/forecast.json?key="
-	    +System.getenv("WEATHER_API_KEY")+"&q="+city+ "&days=7";
+	    +weatherAPIKey+"&q="+city+ "&days=7";
 		
 		RestTemplate restTemp = new RestTemplate();
 		ResponseEntity<String> response = restTemp.getForEntity(uri, String.class);
@@ -63,8 +68,8 @@ public class ApiCaller {
 	public JsonNode[] weekOutLook(String location) throws JsonMappingException, JsonProcessingException {
 		
 		//returns a list of the 7 day forecast for the location
-		
-		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("WEATHER_API_KEY")+"&q="+location+ "&days=7";
+	
+		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+weatherAPIKey+"&q="+location+ "&days=7";
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
@@ -82,7 +87,7 @@ public class ApiCaller {
 	
 	public JsonNode[] customOutLook(String location, int daysNo) throws JsonMappingException, JsonProcessingException {
 
-		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+System.getenv("WEATHER_API_KEY")+"&q="+location+ "&days="+daysNo;
+		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+weatherAPIKey+"&q="+location+ "&days="+daysNo;
 		
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
