@@ -11,4 +11,7 @@ EXPOSE 7001
 
 COPY --from=builder target/globetrot-0.0.1-SNAPSHOT.jar globetrot.jar
 
+RUN --mount=type=secret,id=api_key \
+	export WEATHER_API_KEY=$(cat /run/secrets/api_key)
+
 ENTRYPOINT [ "java", "-jar", "globetrot.jar" ]
