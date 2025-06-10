@@ -5,12 +5,10 @@ COPY pom.xml pom.xml
 
 RUN mvn clean package -Dmaven.test.skip=true
 
-FROM openjdk:11 AS runner
+FROM openjdk:8 AS runner
 
-EXPOSE 8080
+EXPOSE 7001
 
 COPY --from=builder target/globetrot-0.0.1-SNAPSHOT.jar globetrot.jar
-
-ENV WEATHER_API_KEY=${WEATHER_API_KEY}
 
 ENTRYPOINT [ "java", "-jar", "globetrot.jar" ]
