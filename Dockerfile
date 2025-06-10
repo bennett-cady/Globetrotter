@@ -11,4 +11,6 @@ EXPOSE 8080
 
 COPY --from=builder target/globetrot-0.0.1-SNAPSHOT.jar globetrot.jar
 
+ENV WEATHER_API_KEY=${WEATHER_API_KEY}
+
 ENTRYPOINT [ "java", "-jar", "globetrot.jar" ]
