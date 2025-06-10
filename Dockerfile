@@ -5,7 +5,7 @@ COPY pom.xml pom.xml
 
 RUN mvn clean package -Dmaven.test.skip=true
 
-FROM openjdk:11 AS runner
+FROM openjdk:8 AS runner
 
 EXPOSE 8080
 
