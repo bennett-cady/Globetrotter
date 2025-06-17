@@ -29,12 +29,30 @@ public class Location {
 	
 	public Location() {}
 	
+	public Location(String city, String region, String zipCode, String country, String continent) {
+		super();
+		this.city = city;
+		this.region = region;
+		this.zipCode = zipCode;
+		this.country = country;
+		this.continent = continent;
+	}
+	
 	public Location(int id, String city, String region, String zipCode, String country, String continent) {
 		super();
 		this.id = id;
 		this.city = city;
 		this.region = region;
 		this.zipCode = zipCode;
+		this.country = country;
+		this.continent = continent;
+	}
+	
+
+	public Location(String city, String region, String country, String continent) {
+		super();
+		this.city = city;
+		this.region = region;
 		this.country = country;
 		this.continent = continent;
 	}

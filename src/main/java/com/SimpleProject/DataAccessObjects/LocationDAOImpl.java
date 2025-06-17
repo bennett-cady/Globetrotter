@@ -13,7 +13,6 @@ public class LocationDAOImpl implements LocationDAO<Location> {
 	@Autowired
 	private EntityManager entityManager;
 
-	@Override
 	public List<Location> findAll() {
 		String jpql = "SELECT l FROM  Location l";
         TypedQuery<Location> query = entityManager.createQuery(jpql, Location.class);      

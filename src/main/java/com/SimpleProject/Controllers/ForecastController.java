@@ -30,13 +30,13 @@ public class ForecastController {
 	}
 	
 	
-	@GetMapping("/findCityWith/idealTemp={temp_f}&margin={m}")
-	@ResponseBody
-	public ResponseEntity<ArrayList<Location>> findDestinations(@PathVariable("temp_f") double temp_f, @PathVariable("m") double m) throws JsonMappingException, JsonProcessingException{
-		ArrayList<Location> all = loc.populateKnown();
-		ForecastService fs=new ForecastService();
-		return ResponseEntity.ok( fs.findDestination(all, temp_f, m));
-	}
+//	@GetMapping("/findCityWith/idealTemp={temp_f}&margin={m}")
+//	@ResponseBody
+//	public ResponseEntity<ArrayList<Location>> findDestinations(@PathVariable("temp_f") double temp_f, @PathVariable("m") double m) throws JsonMappingException, JsonProcessingException{
+//		ArrayList<Location> all = loc.populateKnown();
+//		ForecastService fs=new ForecastService();
+//		return ResponseEntity.ok( fs.findDestination(all, temp_f, m));
+//	}
 	
 
 }
