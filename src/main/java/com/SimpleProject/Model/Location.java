@@ -1,5 +1,6 @@
 package com.SimpleProject.Model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -8,35 +9,36 @@ import javax.persistence.Table;
 public class Location {
 
 	
+	@Column(name="id")
+	public int id;
 	
-	int id;
+	@Column(name="city")
 	public String city;
-	String region;
-	String zipCode;
-	String country;
-	String continent;
 	
-	public Location(){}
-
-	public Location(String city, String region, String zipCode, String country, String continent) {
+	@Column(name="region")
+	public String region;
+	
+	@Column(name="zip")
+	public String zipCode;
+	
+	@Column(name="country")
+	public String country;
+	
+	@Column(name="continent")
+	public String continent;
+	
+	public Location() {}
+	
+	public Location(int id, String city, String region, String zipCode, String country, String continent) {
 		super();
+		this.id = id;
 		this.city = city;
 		this.region = region;
 		this.zipCode = zipCode;
 		this.country = country;
 		this.continent = continent;
 	}
-	
-	public Location(String city, String region, String country, String continent) {
-		super();
-		this.city = city;
-		this.region = region;
-		this.country = country;
-		this.continent = continent;
-	}
-	
-	
-	
+
 	public String getCity() {
 		return city;
 	}

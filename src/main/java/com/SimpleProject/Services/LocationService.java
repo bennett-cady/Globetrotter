@@ -13,9 +13,9 @@ import com.SimpleProject.Model.Location;
 public class LocationService {
 
 	@Autowired(required=false)
-	LocationDAO locationDao;
+	LocationDAO<?> locationDao;
 	
-	public List<Location> getAll() {
-		return locationDao.getAll();
+	public List<Location> findAll() {
+		return locationDao.findAll();
 	}
 }

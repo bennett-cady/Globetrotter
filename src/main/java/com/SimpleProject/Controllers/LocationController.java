@@ -37,6 +37,6 @@ public class LocationController {
 	@GetMapping("/getAll")
 	@ResponseBody
 	public ResponseEntity<List<Location>> getAll () {
-		return ResponseEntity.ok(service.getAll());
+		return ResponseEntity.ok(service.findAll());
 	}
 }
