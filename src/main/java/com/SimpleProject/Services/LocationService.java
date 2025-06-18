@@ -18,4 +18,8 @@ public class LocationService {
 	public List<Location> findAll() {
 		return locationDao.findAll();
 	}
+	
+	public void insertLocation(Location location) {
+		locationDao.insert(location);
+	}
 }
