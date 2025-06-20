@@ -21,6 +21,15 @@ public class LocationDAOImpl implements LocationDAO<Location> {
         TypedQuery<Location> query = entityManager.createQuery(jpql, Location.class);      
         return query.getResultList();
 	}
+	
+	
+	public Location getLocationByCity(String city) {
+		String sql = "SELECT * FROM gen_location WHERE city=? ";
+		Query query = entityManager.createNativeQuery(sql, Location.class);
+		query.setParameter(1, city);
+		return (Location) query.getSingleResult();
+	}
+	
 
 	@Transactional
 	public void insert(Location location) {

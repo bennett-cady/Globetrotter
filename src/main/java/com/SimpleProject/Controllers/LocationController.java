@@ -42,6 +42,13 @@ public class LocationController {
 		return ResponseEntity.ok(service.findAll());
 	}
 	
+	@GetMapping("/getByCityName/for={city}")
+	@ResponseBody
+	public ResponseEntity<Location> getByCity(@PathVariable("city") String city ) {
+		return ResponseEntity.ok(service.getByCity(city));
+	}
+	
+	
 	@PostMapping("/insert")
 	public void insert(@RequestBody Location location) {
 		service.insertLocation(location);

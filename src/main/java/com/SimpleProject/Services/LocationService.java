@@ -22,4 +22,8 @@ public class LocationService {
 	public void insertLocation(Location location) {
 		locationDao.insert(location);
 	}
+
+	public Location getByCity(String city) {
+		return locationDao.getLocationByCity(city);
+	}
 }

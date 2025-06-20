@@ -11,5 +11,9 @@ public interface LocationDAO<T>  {
 	public List<Location> findAll();
 
 	public void insert(Location location);
+
+	public Location getLocationByCity(String city);
+	
+
 	
 }

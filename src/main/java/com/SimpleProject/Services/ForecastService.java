@@ -1,18 +1,23 @@
 package com.SimpleProject.Services;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.SimpleProject.ApiCaller;
+import com.SimpleProject.DataAccessObjects.LocationDAO;
 import com.SimpleProject.Model.Location;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Service
 public class ForecastService {
+	
+	@Autowired
+	LocationDAO<Location> locationDAO;
 
 	public String weekSummary(String location, double idealTemp) throws JsonMappingException, JsonProcessingException {
 		ApiCaller ac = new ApiCaller();
@@ -31,11 +36,13 @@ public class ForecastService {
 		return "The weather in "+location+" will be just right this week!";
 	}
 	
-	public ArrayList<Location> findDestination(ArrayList<Location> locs, double ideal, double margin) throws JsonMappingException, JsonProcessingException 
+	public ArrayList<Location> findDestination(double ideal, double margin) throws JsonMappingException, JsonProcessingException 
 	{
+		List<Location> allLocs = locationDAO.findAll();
+		System.out.println(allLocs.size());
 		ArrayList<Location> destinations = new ArrayList<Location>();
 		ApiCaller ac = new ApiCaller();
-		for(Location loc: locs) 
+		for(Location loc: allLocs) 
 		{
 			JsonNode[] jn = ac.weekOutLook(loc.getCity());
 			double totalAvg = 0.0;
