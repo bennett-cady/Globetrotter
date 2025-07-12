@@ -24,7 +24,6 @@ public class SunshineAPICaller {
 	
 	public JsonNode getDailySunshinePercentage(String city) throws JsonMappingException, JsonProcessingException 
 	{		
-
 		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+weatherAPIKey+"&q="+city+"&days=1";
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);

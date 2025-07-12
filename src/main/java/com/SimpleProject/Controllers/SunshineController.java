@@ -16,9 +16,9 @@ public class SunshineController {
 	@Autowired
 	SunshineService sunshineService;
 	
-	@GetMapping("/daily/city={city}")
-	public ResponseEntity<String> getDailySunshinePercentage(@PathVariable String city) {
-		double percentage = sunshineService.calculateDailySunshinePercentage(city);
+	@GetMapping("/daily/city={n}")
+	public ResponseEntity<String> getDailySunshinePercentage(@PathVariable String n) {
+		double percentage = sunshineService.calculateDailySunshinePercentage(n);
 		return ResponseEntity.ok(String.valueOf(percentage));
 	}
 	
