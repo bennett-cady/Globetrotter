@@ -28,11 +28,18 @@ public class LocationController {
 	
 	@GetMapping("/city={n}")
 	@ResponseBody
-	public ResponseEntity<String> weatherForCity(@PathVariable("n") String city) throws JsonMappingException, JsonProcessingException 
+	public ResponseEntity<String> weatherForCity(@PathVariable("n") String city)
 	{
-		ApiCaller ac = new ApiCaller();
-		JsonNode jnode = ac.showTempForCity(city);
-		double temp = jnode.asDouble();
+		double temp = 0.0;
+		try {
+			ApiCaller ac = new ApiCaller();
+			JsonNode jnode = ac.showTempForCity(city);
+			temp = jnode.asDouble();
+		} catch(JsonMappingException jme) {
+			System.out.println("JsonMappingException");
+		} catch(JsonProcessingException jpe) {
+			System.out.println("JsonProcessingException");
+		}
 		return ResponseEntity.ok("It is "+String.valueOf(temp)+" (f) in "+city);
 	}
 	

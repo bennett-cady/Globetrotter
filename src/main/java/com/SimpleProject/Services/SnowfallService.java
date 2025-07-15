@@ -11,12 +11,17 @@ public class SnowfallService
 {	
 	ApiCaller apiCaller = new ApiCaller();
 
-	public double weeklySnowTotal(String city) throws JsonMappingException, JsonProcessingException 
-	{
-		JsonNode[] jsonNode = apiCaller.weekOutLook(city);
+	public double weeklySnowTotal(String city) {
 		double snowTotal = 0.0;
-		for(JsonNode day: jsonNode) {
-			snowTotal += day.path("day").path("totalsnow_cm").asDouble();
+		try {
+			JsonNode[] jsonNode = apiCaller.weekOutLook(city);
+			for(JsonNode day: jsonNode) {
+				snowTotal += day.path("day").path("totalsnow_cm").asDouble();
+			}
+		} catch(JsonMappingException jme) {
+			System.out.println("JsonMappingException");
+		} catch(JsonProcessingException jpe) {
+			System.out.println("JsonProcessingException");
 		}
 		return snowTotal;
 	}
@@ -29,70 +34,80 @@ public class SnowfallService
 	
 	SkiResort[] resorts = {noneExpected, winterPark, copperMountain, eldora, taosSkiValley};
 
-	public Location findHighestTotal(int days) 
-			throws JsonMappingException, JsonProcessingException
-	{
+	public Location findHighestTotal(int days) {
+		
 		if(days>7) {
 			days=7;
 		}
 		else if(days<1) {
 			days=1;
 		}
+		
 		double highestTotal = 0.0;
 		Location resort = resorts[0];
-		for(int idx=1; idx<resorts.length; idx++)
-		{
-			String zipcode=resorts[idx].getZipCode();
-			JsonNode[] jsonNode = apiCaller.customOutLook(zipcode, days);
-			double total= 0.0;
-			for(JsonNode day: jsonNode) {
-				double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
-				total+=dailyTotal;
+		
+		try{
+
+			for(int idx=1; idx<resorts.length; idx++) {
+				String zipcode=resorts[idx].getZipCode();
+				JsonNode[] jsonNode = apiCaller.customOutLook(zipcode, days);
+				double total= 0.0;
+				for(JsonNode day: jsonNode) {
+					double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
+					total+=dailyTotal;
+				}
+				if(total>highestTotal) {
+					highestTotal=total;
+					resort=resorts[idx];
+				}
 			}
-			if(total>highestTotal) {
-				highestTotal=total;
-				resort=resorts[idx];
+			if(highestTotal==0.0) {
+				noneExpected.city="No snow in the next "+String.valueOf(days)+" days";
+				return noneExpected;
 			}
-		}
-		if(highestTotal==0.0) {
-			noneExpected.city="No snow in the next "+String.valueOf(days)+" days";
-			return noneExpected;
+		} catch(JsonMappingException jme) {
+			System.out.println("JsonMappingException");
+		} catch(JsonProcessingException jpe) {
+			System.out.println("JsonProcessingException");
 		}
 		return resort;
 	}
 	
-	public SkiResort[] rankResortSnowfall(int days) 
-			throws JsonMappingException, JsonProcessingException 
-	{
+	public SkiResort[] rankResortSnowfall(int days)  {
 		if(days>7) {
 			days=7;
 		} else if(days<1) {
 			days=1;
 		}
 		SkiResort[] resortsRanked = new SkiResort[resorts.length-1];
+		try {
 		
-		for(int idx=1; idx<resorts.length; idx++) {
-			SkiResort current = resorts[idx];
-			JsonNode[] nodes = apiCaller.customOutLook(current.getZipCode(), days);
-			double currentTotal = 0.0;
-			int arrayIdx = idx-1;
-			for(JsonNode day: nodes) {
-				double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
-				currentTotal+=dailyTotal;
-			}
-			current.setExpectedSnow(Math.ceil(currentTotal*100)/100);
-			resortsRanked[arrayIdx]=current;
-			while(arrayIdx>0) {
-				if( resortsRanked[arrayIdx].getExpectedSnow() > resortsRanked[arrayIdx-1].getExpectedSnow() ) {
-					SkiResort temp = resortsRanked[arrayIdx];
-					resortsRanked[arrayIdx] = resortsRanked[arrayIdx-1];
-					resortsRanked[arrayIdx-1] = temp;
-				} else {
-					break;
+			for(int idx=1; idx<resorts.length; idx++) {
+				SkiResort current = resorts[idx];
+				JsonNode[] nodes = apiCaller.customOutLook(current.getZipCode(), days);
+				double currentTotal = 0.0;
+				int arrayIdx = idx-1;
+				for(JsonNode day: nodes) {
+					double dailyTotal = day.path("day").path("totalsnow_cm").asDouble();
+					currentTotal+=dailyTotal;
 				}
-				arrayIdx--;
+				current.setExpectedSnow(Math.ceil(currentTotal*100)/100);
+				resortsRanked[arrayIdx]=current;
+				while(arrayIdx>0) {
+					if( resortsRanked[arrayIdx].getExpectedSnow() > resortsRanked[arrayIdx-1].getExpectedSnow() ) {
+						SkiResort temp = resortsRanked[arrayIdx];
+						resortsRanked[arrayIdx] = resortsRanked[arrayIdx-1];
+						resortsRanked[arrayIdx-1] = temp;
+					} else {
+						break;
+					}
+					arrayIdx--;
+				}
 			}
-			
+		} catch(JsonMappingException jme) {
+			System.out.println("JsonMappingException");
+		} catch(JsonProcessingException jpe) {
+			System.out.println("JsonProcessingException");
 		}
 
 		return resortsRanked; 

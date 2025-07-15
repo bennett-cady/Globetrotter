@@ -19,40 +19,51 @@ public class ForecastService {
 	@Autowired
 	LocationDAO<Location> locationDAO;
 
-	public String weekSummary(String location, double idealTemp) throws JsonMappingException, JsonProcessingException {
+	public String weekSummary(String location, double idealTemp)  {
 		ApiCaller ac = new ApiCaller();
-		JsonNode[] jn = ac.weekOutLook(location);
-		double totalAvg = 0.0;
-		for(JsonNode day: jn) {
-			totalAvg += day.path("day").path("avgtemp_f").asDouble();
-		}
-		
-		if( idealTemp-5.0 > totalAvg/7.0 ) {
-			return "It will be too cold for you in "+location;
-		} else if ( idealTemp+5.0 < totalAvg/7.0 ) {
-			return "It will be too hot for you in "+location;
-		}
-		
-		return "The weather in "+location+" will be just right this week!";
-	}
-	
-	public ArrayList<Location> findDestination(double ideal, double margin) throws JsonMappingException, JsonProcessingException 
-	{
-		List<Location> allLocs = locationDAO.findAll();
-		System.out.println(allLocs.size());
-		ArrayList<Location> destinations = new ArrayList<Location>();
-		ApiCaller ac = new ApiCaller();
-		for(Location loc: allLocs) 
-		{
-			JsonNode[] jn = ac.weekOutLook(loc.getCity());
+		try {
+			JsonNode[] jn = ac.weekOutLook(location);
 			double totalAvg = 0.0;
 			for(JsonNode day: jn) {
 				totalAvg += day.path("day").path("avgtemp_f").asDouble();
 			}
-			totalAvg/=7.0;
-			if( totalAvg <= ideal+margin && totalAvg >= ideal-margin ) {
-				destinations.add(loc);
+			
+			if( idealTemp-5.0 > totalAvg/7.0 ) {
+				return "It will be too cold for you in "+location;
+			} else if ( idealTemp+5.0 < totalAvg/7.0 ) {
+				return "It will be too hot for you in "+location;
 			}
+		} catch(JsonMappingException jme) {
+			System.out.println("JsonMappingException");
+		} catch(JsonProcessingException jpe) {
+			System.out.println("JsonProcessingException");
+		}
+		return "The weather in "+location+" will be just right this week!";
+	}
+	
+	public ArrayList<Location> findDestination(double ideal, double margin) {
+		ArrayList<Location> destinations = new ArrayList<Location>();
+		try {
+			List<Location> allLocs = locationDAO.findAll();
+			System.out.println(allLocs.size());
+			
+			ApiCaller ac = new ApiCaller();
+			for(Location loc: allLocs) 
+			{
+				JsonNode[] jn = ac.weekOutLook(loc.getCity());
+				double totalAvg = 0.0;
+				for(JsonNode day: jn) {
+					totalAvg += day.path("day").path("avgtemp_f").asDouble();
+				}
+				totalAvg/=7.0;
+				if( totalAvg <= ideal+margin && totalAvg >= ideal-margin ) {
+					destinations.add(loc);
+				}
+			}
+		} catch(JsonMappingException jme) {
+			System.out.println("JsonMappingException");
+		} catch(JsonProcessingException jpe) {
+			System.out.println("JsonProcessingException");
 		}
 		return destinations;
 	}
