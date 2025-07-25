@@ -106,27 +106,6 @@ public class ApiCaller {
 	}
 	
 	
-	public ArrayList<JsonNode> getDailySunshinePercentage(String city) throws JsonMappingException, JsonProcessingException 
-	{		
-		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+weatherAPIKey+"&q="+city+"&days=1";
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-		ObjectMapper mapper = new ObjectMapper();
-		JsonNode root = mapper.readTree(response.getBody());
-		
-		JsonNode nodes = root.path("forecast");
-		
-		ArrayList<JsonNode> dailyForecasts = new ArrayList<JsonNode>();
-		
-		for(JsonNode hour : nodes.get("forecastday").get(0).get("hour")) {
-			dailyForecasts.add(hour);
-		}
-		
-		return dailyForecasts;
-	}
-	
-	
-	
 }
 
 
