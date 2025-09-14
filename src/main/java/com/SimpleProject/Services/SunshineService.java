@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 import com.SimpleProject.SunshineAPICaller;
+import com.SimpleProject.Model.WeeklySunshineReport;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -36,4 +37,17 @@ public class SunshineService {
 		return (double) sunnyhrs/totalhrs;
 	}
 	
+	//implement next
+	public WeeklySunshineReport getWeeklySunshinePercentage(String city) {
+		SunshineAPICaller sunshineApiCaller = new SunshineAPICaller();
+		try {
+			System.out.println("In Service...");
+			sunshineApiCaller.getWeeklySunshinePercentage(city);
+		}catch(JsonMappingException jme) {
+			System.out.println("JsonMappingException");
+		} catch(JsonProcessingException jpe) {
+			System.out.println("JsonProcessingException");
+		}
+		return new WeeklySunshineReport();
+	}
 }

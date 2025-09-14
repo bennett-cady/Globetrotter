@@ -40,7 +40,27 @@ private static String weatherAPIKey;
 		for(JsonNode hour : nodes.get("forecastday").get(0).get("hour")) {
 			dailyForecasts.add(hour);
 		}
+		return dailyForecasts;
+	}
+	
+	//To-Do: consolidate getWeeklySunshinePercentage and getDailySunshinePercentage into one method with multiple parameters
+	// includes current day in the week outlook - consider bumping up subscription to get the forecast 10 days out
+	public ArrayList<JsonNode> getWeeklySunshinePercentage(String city) throws JsonMappingException, JsonProcessingException {
+		System.out.println("In SAPIC...");
+		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+weatherAPIKey+"&q="+city+"&days=7";
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode root = mapper.readTree(response.getBody());
 		
+		JsonNode nodes = root.path("forecast");
+		System.out.println("");
+		//return a list of JsonNode for each of the next 7 days
+		ArrayList<JsonNode> dailyForecasts = new ArrayList<JsonNode>();
+		System.out.println("forecastday.size()="+nodes.get("forecastday").size());
+		for(JsonNode day: nodes.get("forecastday")) {
+			dailyForecasts.add(day);
+		}
 		return dailyForecasts;
 	}
 	
