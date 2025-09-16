@@ -4,22 +4,17 @@ import java.util.List;
 
 public class WeeklySunshineReport {
 	
+	Location location;
 	byte totalSunnyHrs;
 	double totalSunnyPercentage;
-	String location;
 	List<IndividualDayReport> weekdays;
 	String writtenForecast;
 	
-	
-	
 	public WeeklySunshineReport() {
 		super();
-	}
+	}	
 	
-	
-	
-	
-	public WeeklySunshineReport(byte totalSunnyHrs, double totalSunnyPercentage, String location,
+	public WeeklySunshineReport(byte totalSunnyHrs, double totalSunnyPercentage, Location location,
 			List<IndividualDayReport> weekdays, String writtenForecast) {
 		super();
 		this.totalSunnyHrs = totalSunnyHrs;
@@ -28,9 +23,6 @@ public class WeeklySunshineReport {
 		this.weekdays = weekdays;
 		this.writtenForecast = writtenForecast;
 	}
-
-
-
 
 	public byte getTotalSunnyHrs() {
 		return totalSunnyHrs;
@@ -44,10 +36,10 @@ public class WeeklySunshineReport {
 	public void setTotalSunnyPercentage(double totalSunnyPercentage) {
 		this.totalSunnyPercentage = totalSunnyPercentage;
 	}
-	public String getLocation() {
+	public Location getLocation() {
 		return location;
 	}
-	public void setLocation(String location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 	public List<IndividualDayReport> getWeekdays() {

@@ -26,7 +26,6 @@ public class SunshineController {
 	@GetMapping("/weekly/city={location}")
 	public ResponseEntity<WeeklySunshineReport> getWeeklySunshinePercentage(@PathVariable String location) {
 		WeeklySunshineReport wsr =  sunshineService.getWeeklySunshinePercentage(location);
-		
 		return ResponseEntity.ok(wsr);
 	}
 	

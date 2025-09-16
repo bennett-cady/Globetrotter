@@ -51,6 +51,14 @@ public class Location {
 		this.continent = continent;
 	}
 	
+	
+
+	public Location(String city, String region, String country) {
+		super();
+		this.city = city;
+		this.region = region;
+		this.country = country;
+	}
 
 	public Location(String city, String region, String country, String continent) {
 		super();

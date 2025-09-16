@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.SimpleProject.ApiCaller;
+import com.SimpleProject.Model.WeeklySunForecastDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,29 +41,48 @@ private static String weatherAPIKey;
 		for(JsonNode hour : nodes.get("forecastday").get(0).get("hour")) {
 			dailyForecasts.add(hour);
 		}
+		// returns a list of hourly forecasts for the day
 		return dailyForecasts;
 	}
 	
-	//To-Do: consolidate getWeeklySunshinePercentage and getDailySunshinePercentage into one method with multiple parameters
-	// includes current day in the week outlook - consider bumping up subscription to get the forecast 10 days out
-	public ArrayList<JsonNode> getWeeklySunshinePercentage(String city) throws JsonMappingException, JsonProcessingException {
-		System.out.println("In SAPIC...");
+	
+	public WeeklySunForecastDTO getWeeklySunshinePercentage(String city) throws JsonMappingException, JsonProcessingException {
+
 		String uri = "http://api.weatherapi.com/v1/forecast.json?key="+weatherAPIKey+"&q="+city+"&days=7";
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(response.getBody());
 		
+		WeeklySunForecastDTO weekDto = new WeeklySunForecastDTO();
+
+		weekDto.setCityName( root.get("location").get("name").asText() );
+		weekDto.setRegion( root.get("location").get("region").asText() );
+		weekDto.setCountry( root.get("location").get("country").asText() );
+		
 		JsonNode nodes = root.path("forecast");
-		System.out.println("");
-		//return a list of JsonNode for each of the next 7 days
-		ArrayList<JsonNode> dailyForecasts = new ArrayList<JsonNode>();
-		System.out.println("forecastday.size()="+nodes.get("forecastday").size());
-		for(JsonNode day: nodes.get("forecastday")) {
-			dailyForecasts.add(day);
+		
+		ArrayList<String> dates = new ArrayList<String>();
+		for(JsonNode day : nodes.get("forecastday") ) {
+			dates.add(day.get("date").asText());
 		}
-		return dailyForecasts;
+		weekDto.setDays(dates);
+
+		ArrayList<ArrayList<JsonNode>> hourlyForecasts = new ArrayList<ArrayList<JsonNode>>();
+		for(int i=0; i<7; i++) {
+			ArrayList<JsonNode> dailyHrs = new ArrayList<JsonNode>();
+			int hr = 0;
+			for(JsonNode hour: nodes.get("forecastday").get(i).get("hour")) {
+				if( hr>=6 && hr<22 ) {
+					dailyHrs.add(hour);
+				}
+				hr++;
+			}
+			hourlyForecasts.add( dailyHrs );
+		}
+		weekDto.setHourly(hourlyForecasts);
+		return weekDto;
 	}
-	
+		
 	
 }
